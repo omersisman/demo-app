@@ -1,7 +1,19 @@
 package main
 
-import "fmt"
+import (
+	"github.com/gofiber/fiber/v2"
+	"strings"
+)
 
 func main() {
-	fmt.Println("Hello Demo App!")
+	app := fiber.New()
+
+	app.Get("/:text?", func(c *fiber.Ctx) error {
+		if c.Params("text") != "" {
+			return c.SendString(strings.ToUpper(c.Params("text")))
+		}
+		return c.SendString("Demo App")
+	})
+
+	app.Listen(":3000")
 }
